@@ -8,10 +8,20 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
   <head>
-
+<link rel="stylesheet" href="/resources/css/prime.css"/>
   </head>
   <body>
 
-  <a href="Terminplaner.html">Hello</a>
+  <header>
+    <div class="nav">
+      <ul>
+        <li class="Terminplaner"><a href="/Terminplaner">Terminplaner</a></li>
+        <li class="Kursplaner"><a  href="/kursplaner">Kursplaner</a></li>
+        <li class="Arbeitszeiten"><a href="/arbeitszeit">Arbeitszeiten</a></li>
+        <li class="Ausfallzeiten"><a href="/ausfallzeit">Ausfallzeiten</a></li>
+
+      </ul>
+    </div>
+  </header>
   </body>
 </html>
