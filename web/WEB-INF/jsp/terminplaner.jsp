@@ -1,3 +1,7 @@
+<%@ taglib prefix="th" uri="http://www.springframework.org/tags/form" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@ taglib prefix="c" uri="http://www.springframework.org/tags" %>
+
 <%--
   Created by IntelliJ IDEA.
   User: Jutom
@@ -6,14 +10,19 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<html>
+<html onload="  Console.log('test');$(document).ready(function() {
+        Console.log('test');
+      $('#calendar').fullCalendar('gotoDate', ${setTheTermin.javaScriptDate});
+})
+">
 <head>
 
 
 
     <script  src="/resources/fullcalendar/lib/jquery.min.js"></script>
     <script  src="/resources/fullcalendar/lib/jquery-ui.min.js"></script>
-<script src="/resources/JS/testF.js"></script>
+    <script src="/resources/JS/jquery.modal.js"></script>
+    <script src="/resources/JS/testF.js"></script>
 
 
 
@@ -22,7 +31,11 @@
     <script type="text/javascript" src="/resources/fullcalendar-scheduler/scheduler.js"></script>
     <link rel="stylesheet" href="/resources/fullcalendar-scheduler/lib/fullcalendar.min.css" />
     <link rel="stylesheet" href="/resources/fullcalendar-scheduler/scheduler.css" />
+    <link rel="stylesheet" href="/resources/css/modal.css"/>
+
+    <link rel="stylesheet" href="/resources/css/bootstrap.min.css"/>
     <script type="text/javascript" src='/resources/fullcalendar/locale/de-at.js'></script>
+
 
     <script type="text/javascript">
         $(document).ready(function() {
@@ -45,24 +58,7 @@
                     agendaDay: {
                         titleFormat: 'dddd   DD.MM.YYYY'
                     },
-                    //agendaFiveDays: {
-                    //type: 'agenda',
-                    //duration: { days: 5 },
-                    // views that are more than a day will NOT do this behavior by default
-                    // so, we need to explicitly enable it
-                    //groupByResource: true
-                    //// uncomment this line to group by day FIRST with resources underneath
-                    //groupByDateAndResource: true
-                    //},
-                    // agendaWeek: {
-                    // type: 'agenda',
-                    // duration: { days: 7 },
-                    // // views that are more than a day will NOT do this behavior by default
-                    // // so, we need to explicitly enable it
-                    // groupByResource: true
-                    // //// uncomment this line to group by day FIRST with resources underneath
-                    // //groupByDateAndResource: true
-                    // }
+
                 },
                 editable: true,
                 eventDrop: function(event, delta, revertFunc) {
@@ -85,9 +81,49 @@
 
                 },
                 dayClick: function(date, jsEvent, view, resourceObj) {
-                    selectDate(date);
-                    getResourceid(resourceObj.id); // setTerminShow("true");
-                    $('#amodal').modal();return false;
+
+
+                    $.ajax({
+                        type: "POST",
+                        url: '/getCalendarDate',
+                        data: JSON.stringify(date.format()), //Stringified JSON Object
+
+                        success: function() {
+                            $('#currentDate').val(date.format());
+
+                        },
+                        error: function(data){
+                            26
+                            alert('Error: ' + date.format());
+                            27
+                        },
+                        dataType: "json",
+                        contentType: "application/json"
+
+
+                    });
+                    $.ajax({
+                        type: "POST",
+                        url: '/getResourceId',
+                        data: JSON.stringify(resourceObj.id), //Stringified JSON Object
+
+                        success: function() {
+                            $('#resID').val(resourceObj.id);
+                            $('#meinModal').modal('show');return false;
+                        },
+                        error: function(data){
+                            26
+                            alert('Error: ' + date.format());
+                            27
+                        },
+                        dataType: "json",
+                        contentType: "application/json"
+
+
+                    });
+                   //selectDate(date);
+//                    getResourceid(resourceObj.id); // setTerminShow("true");
+
 
 
                 },
@@ -107,10 +143,10 @@
 
                 resources:${resources.resources},
                 eventClick: function(calEvent, jsEvent, view) {
-                    eventTitle(calEvent.title);
-                    selectDate(calEvent.start);
+//                    eventTitle(calEvent.title);
+//                    selectDate(calEvent.start);
                     //butter.modal.open('eventContentI');
-                    $('#eventContentI').modal('show');return false;
+                    $('#Termininfo').modal('show');return false;
 
 
 
@@ -129,5 +165,86 @@
 <div id="calendar"></div>
 
 
+<div class="modal fade" id="meinModal" tabindex="-1" role="dialog" aria-labelledby="meinModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Schließen"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="meinModalLabel">Neuer Termin</h4>
+            </div>
+            <div class="modal-body">
+                <form id="terminform" action="/getTermin" method="post">
+                    <table>
+                        <tr>
+                            <td>Resource ID</td><td><input id="resID" type="text" name="resourceID"> </td>
+                        </tr>
+                        <tr>
+                        <td>Current Date</td><td><input id="currentDate" type="text" name="currentDate"> </td>
+                        </tr>
+                        <tr>
+                            <td></td><td><button type="submit" >OK</button> </td>
+                        </tr>
+                    </table>
+                </form>
+
+            </div>
+            <div class="modal-footer">
+
+            </div>
+        </div>
+    </div>
+</div>
+<!--that work-->
+<script>
+$(document).ready(function () {
+    $('#terminform').submit(function (event) {
+        var id= $('#resID').val();
+        var currendDates= $('#currentDate').val();
+
+        var thing= {
+            'resourceID': id,
+            'currentDate': currendDates
+        };
+        $.ajax({
+            type: "POST",
+            url: '/getTermin',
+            data: thing, //Stringified JSON Object
+            dataType:'json',
+            encode:true,
+            success: function() {
+                alert("Worked fine");
+            },
+            error: function(data){
+                26
+                alert('Error: ' + date.format());
+                27
+            },
+
+
+
+        });
+        event.preventDefault();
+    })
+})
+</script>
+
+<div class="modal fade" id="Termininfo" tabindex="-1" role="dialog" aria-labelledby="meinModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Schließen"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="meineTerminInfo">Termininfo</h4>
+            </div>
+            <div class="modal-body">
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Schließen</button>
+                <button onclick="terminSpeichern()" type="button" class="btn btn-primary">Änderungen speichern</button>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="/resources/JS/bootstrap.min.js"></script>
 </body>
 </html>
