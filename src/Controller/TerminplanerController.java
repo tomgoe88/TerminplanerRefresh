@@ -4,6 +4,7 @@ import Model.Mitarbeiter;
 import Model.ResourceController;
 import Model.TempObject;
 import Model.SQLHelper;
+import Model.Kunde;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -13,6 +14,10 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.ServletRequestDataBinder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
+
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 /**
  * Created by Jutom on 28.05.2017.
@@ -27,27 +32,36 @@ public class TerminplanerController {
         String resources = resourceController.getResources();
         return new ModelAndView("terminplaner","resources",resourceController);
     }
+    @ModelAttribute("kundenlist")
+    public String kunden (){
+        List<Kunde> kundeList= new ArrayList<Kunde>();
+        kundeList.addAll(SQLHelper.getKundeList());
+       StringBuilder stringBuilder= new StringBuilder("");
+        for (Kunde k:kundeList){
+           stringBuilder.append("<option value='"+k.getKundeID()+"'>"+k.getVorname()+" "+k.getNachname()+"</option>");
+        }
+        return stringBuilder.toString();
+    }
     @RequestMapping(value = "/getCalendarDate", method = RequestMethod.POST)
-    @ResponseBody
-    public String calendarDate(
-            @RequestBody String calendardDate
+
+    public ModelAndView calendarDate(
+            @ModelAttribute("setDate") String calendardDate
 
     )
     {
-
+        ModelAndView modeel = new ModelAndView("/terminplaner");
         System.out.println(calendardDate);
-        return calendardDate;
+        return modeel;
     }
     @RequestMapping(value = "/getResourceId", method = RequestMethod.POST)
-    @ResponseBody
-    public String resourceId(
-            @RequestBody String resourceID
+    public ModelAndView resourceId(
+            @ModelAttribute("setResourceID") String resourceID
 
     )
     {
-
+        ModelAndView modeel = new ModelAndView("/terminplaner");
         System.out.println(resourceID);
-        return resourceID;
+        return modeel;
     }
     @RequestMapping(value = "/getTermin", method = RequestMethod.POST)
     public ModelAndView getTermin(
@@ -55,10 +69,27 @@ public class TerminplanerController {
 
     )
     {
+        Date date=null;
+        Date endDate=null;
         ResourceController resourceController=new ResourceController();
         ModelAndView modeel = new ModelAndView("/terminplaner","resources",resourceController);
-        System.out.println(resourceID.getCurrentDate().toString()+" Entstammt aus dem Objekt");
+        DateFormat dateFormat=new SimpleDateFormat("dd.MM.yyyy HH:mm", Locale.GERMAN);
+        try {
+            date= dateFormat.parse(resourceID.getCurrentDate());
+            endDate= dateFormat.parse(resourceID.getEndDate());
+        } catch (Exception e){
+            System.out.println(e);
+        }
+
+
+        System.out.println(date.toString()+" "+resourceID.getVorname()+" "+resourceID.getNachname()+" "+resourceID.getTelefonnummer()+" "+endDate.toString()+" "+resourceID.getKundeJaNein());
         return modeel;
+    }
+    @RequestMapping(value = "/newBestandTermin", method = RequestMethod.POST)
+    public String addCurrentCustomer(@ModelAttribute("bestandTermin")TempObject user
+                          ) {
+            System.out.println(user.getNachname());
+        return "terminplaner";
     }
 
 

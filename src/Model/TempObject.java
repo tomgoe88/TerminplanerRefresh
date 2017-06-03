@@ -9,12 +9,16 @@ import java.util.Date;
  */
 public class TempObject {
     private int resourceID;
+    private int kundenID;
+    private String kundeJaNein;
     private String currentDate;
+    private String endDate;
     private String vorname;
     private String nachname;
     private String telefonnummer;
     private String email;
     private String terminart;
+    private String beschreibung;
     private String javaScriptDate;
 
     public int getResourceID() {
@@ -31,6 +35,22 @@ public class TempObject {
 
     public void setCurrentDate(String currentDate) {
         this.currentDate = currentDate;
+    }
+
+    public int getKundenID() {
+        return kundenID;
+    }
+
+    public void setKundenID(int kundenID) {
+        this.kundenID = kundenID;
+    }
+
+    public String getKundeJaNein() {
+        return kundeJaNein;
+    }
+
+    public void setKundeJaNein(String kundeJaNein) {
+        this.kundeJaNein = kundeJaNein;
     }
 
     public String getVorname() {
@@ -71,6 +91,22 @@ public class TempObject {
 
     public void setTerminart(String terminart) {
         this.terminart = terminart;
+    }
+
+    public String getEndDate() {
+        return endDate;
+    }
+
+    public void setEndDate(String endDate) {
+        this.endDate = endDate;
+    }
+
+    public String getBeschreibung() {
+        return beschreibung;
+    }
+
+    public void setBeschreibung(String beschreibung) {
+        this.beschreibung = beschreibung;
     }
 
     public String getJavaScriptDate() {
