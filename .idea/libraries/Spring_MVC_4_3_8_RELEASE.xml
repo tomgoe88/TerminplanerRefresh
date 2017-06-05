@@ -7,10 +7,9 @@
       <root url="jar://$PROJECT_DIR$/lib/spring-web-4.3.8.RELEASE.jar!/" />
       <root url="jar://$PROJECT_DIR$/lib/spring-webmvc-4.3.8.RELEASE.jar!/" />
       <root url="jar://I:/Java_Bibiliotheken/mysql-connector-java-5.1.40/mysql-connector-java-5.1.40-bin.jar!/" />
+      <root url="jar://I:/Java_Bibiliotheken/jstl-1.2.jar!/" />
     </CLASSES>
-    <JAVADOC>
-      <root url="http://java.sun.com/jsp/jstl/core" />
-    </JAVADOC>
+    <JAVADOC />
     <SOURCES />
   </library>
 </component>

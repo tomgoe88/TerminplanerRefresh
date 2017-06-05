@@ -1,7 +1,8 @@
 
 <%@ taglib prefix="th" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
-<%@ taglib prefix="c" uri="http://www.springframework.org/tags" %>
+<%@ taglib prefix="sp" uri="http://www.springframework.org/tags" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <%--
   Created by IntelliJ IDEA.
@@ -286,7 +287,9 @@
             <div class="modal-body">
                 <form id="terminform2">
                     <select id="kundenwahl" class="form-control" onchange="getKundenID(this)">
-                        ${kundenlist}
+                        <c:forEach items="${kundenlist}" var="kunde">
+                            <option value="${kunde.kundeID}">${kunde.vorname} ${kunde.nachname}</option>
+                        </c:forEach>
                     </select>
                     <script>
                         function getKundenID(item) {

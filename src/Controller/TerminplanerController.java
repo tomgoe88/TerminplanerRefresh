@@ -33,14 +33,14 @@ public class TerminplanerController {
         return new ModelAndView("terminplaner","resources",resourceController);
     }
     @ModelAttribute("kundenlist")
-    public String kunden (){
+    public List<Kunde> kunden (){
         List<Kunde> kundeList= new ArrayList<Kunde>();
         kundeList.addAll(SQLHelper.getKundeList());
-       StringBuilder stringBuilder= new StringBuilder("");
+     /*  StringBuilder stringBuilder= new StringBuilder("");
         for (Kunde k:kundeList){
            stringBuilder.append("<option value='"+k.getKundeID()+"'>"+k.getVorname()+" "+k.getNachname()+"</option>");
-        }
-        return stringBuilder.toString();
+        }*/
+        return kundeList;
     }
     @RequestMapping(value = "/getCalendarDate", method = RequestMethod.POST)
 
