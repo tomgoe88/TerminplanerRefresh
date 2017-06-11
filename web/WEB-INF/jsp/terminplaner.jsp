@@ -1,4 +1,3 @@
-
 <%@ taglib prefix="th" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="sp" uri="http://www.springframework.org/tags" %>
@@ -12,17 +11,13 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<html onload="  Console.log('test');$(document).ready(function() {
-        Console.log('test');
-      $('#calendar').fullCalendar('gotoDate', ${setTheTermin.javaScriptDate});
-})
-">
+<html>
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no"/>
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 
-    <link rel="stylesheet" href="/resources/css/materialize.min.css"/>
-    <link rel="stylesheet" href="/resources/css/style.css"/>
+
+
+
 
     <script  src="/resources/fullcalendar/lib/jquery.min.js"></script>
     <script  src="/resources/fullcalendar/lib/jquery-ui.min.js"></script>
@@ -38,19 +33,19 @@
     <link rel="stylesheet" href="/resources/fullcalendar-scheduler/lib/fullcalendar.min.css" />
     <link rel="stylesheet" href="/resources/fullcalendar-scheduler/scheduler.css" />
     <link rel="stylesheet" href="/resources/css/modal.css"/>
-    <link rel="stylesheet" href="/resources/jquery/jquery.datetimepicker.css"/>
     <link rel="stylesheet" href="/resources/css/bootstrap.min.css"/>
+    <script src="/resources/JS/bootstrap.min.js"></script>
+
+    <link rel="stylesheet" href="/resources/jquery/jquery.datetimepicker.css"/>
+
     <script type="text/javascript" src='/resources/fullcalendar/locale/de-at.js'></script>
     <script src="/resources/JS/dateTimepickerController.js"></script>
+    <link rel="stylesheet" href="/resources/css/prime.css"/>
 
 
     <script type="text/javascript">
         $(document).ready(function() {
-
             // page is now ready, initialize the calendar...
-
-
-
             $('#calendar').fullCalendar({
                 schedulerLicenseKey: 'GPL-My-Project-Is-Open-Source',
                 header: {
@@ -65,7 +60,6 @@
                     agendaDay: {
                         titleFormat: 'dddd   DD.MM.YYYY'
                     },
-
                 },
                 editable: true,
                 eventDrop: function(event, delta, revertFunc) {
@@ -74,9 +68,6 @@
                     } else {
                         changeEvent(event.start.format(),event.end.format(),event.title, event.resourceId);
                     }
-
-
-
                 },
                 eventResize: function(event, delta, revertFunc) {
                     if (!confirm("Soll der Termin wirklich verschoben werden?")) {
@@ -84,24 +75,18 @@
                     } else {
                         changeEvent(event.start.format(),event.end.format(),event.title, event.resourceId);
                     }
-
-
                 },
                 dayClick: function(date, jsEvent, view, resourceObj) {
                     $('#currentDate').val(moment(date).format('DD.MM.YYYY HH:mm'));
-
                     $('#endDate').val(moment(date).format('DD.MM.YYYY HH:mm'));
                     $('#resID').val(resourceObj.id);
+                    $('#currentDate2').val(moment(date).format('DD.MM.YYYY HH:mm'));
+                    $('#endDate2').val(moment(date).format('DD.MM.YYYY HH:mm'));
+                    $('#resID2').val(resourceObj.id);
                     $('#meinModal').modal('show');return false;
-
-                   //selectDate(date);
+                    //selectDate(date);
 //                    getResourceid(resourceObj.id); // setTerminShow("true");
-
-
-
                 },
-
-
                 // put your options and callbacks here
                 defaultView: 'agendaDay',
                 resourceAreaWidth:'10%',
@@ -113,46 +98,35 @@
                     }
                 ],
                 events: ${resources.events},
-
                 resources:${resources.resources},
                 eventClick: function(calEvent, jsEvent, view) {
 //                    eventTitle(calEvent.title);
 //                    selectDate(calEvent.start);
                     //butter.modal.open('eventContentI');
                     $('#Termininfo').modal('show');return false;
-
-
-
                 }
-
             })
-
         });
     </script>
 
 </head>
-<body>
-<nav class="white" role="navigation">
-    <div class="nav-wrapper container">
-        <a id="logo-container" href="#" class="brand-logo">Logo</a>
-        <ul class="right hide-on-med-and-down">
-            <li class="Terminplaner"><a href="/Terminplaner">Terminplaner</a></li>
-            <li class="Kursplaner"><a  href="/kursplaner">Kursplaner</a></li>
-            <li class="Arbeitszeiten"><a href="/arbeitszeit">Arbeitszeiten</a></li>
-            <li class="Ausfallzeiten"><a href="/ausfallzeit">Ausfallzeiten</a></li>
-            <li class="Ausfallzeiten"><a href="/kunden">Kunden</a></li>
+<body  onload="$(document).ready(function() {
+        $('#calendar').fullCalendar('gotoDate', ${setTheTermin.javaScriptDate});
+        })
+        ">
+<header>
+    <div class="nav">
+        <ul >
+            <li ><a  href="/Terminplaner">Terminplaner</a></li>
+            <li ><a  href="/kursplaner">Kursplaner</a></li>
+            <li ><a  href="/arbeitszeit">Arbeitszeiten</a></li>
+            <li><a  href="/ausfallzeit">Ausfallzeiten</a></li>
+            <li ><a  href="/kunden">Kunden</a></li>
         </ul>
-
-        <ul id="nav-mobile" class="side-nav">
-            <li class="Terminplaner"><a href="/Terminplaner">Terminplaner</a></li>
-            <li class="Kursplaner"><a  href="/kursplaner">Kursplaner</a></li>
-            <li class="Arbeitszeiten"><a href="/arbeitszeit">Arbeitszeiten</a></li>
-            <li class="Ausfallzeiten"><a href="/ausfallzeit">Ausfallzeiten</a></li>
-            <li class="Ausfallzeiten"><a href="/kunden">Kunden</a></li>
-        </ul>
-        <a href="#" data-activates="nav-mobile" class="button-collapse"><i class="material-icons">menu</i></a>
     </div>
-</nav>
+</header>
+
+
 
 <button onclick="$('#calendar').fullCalendar('prev');">zurück</button>
 <button onclick="$('#calendar').fullCalendar('next');">weiter</button>
@@ -200,54 +174,11 @@
                         </tr>
                         <tr>
                             <td>Terminstart:  </td><td><input id="currentDate" type="text" name="currentDate"> </td>
-                            <script>
-                                $.datetimepicker.setLocale('de');
 
-                                $('#currentDate').datetimepicker({
-                                    i18n:{
-                                        de:{
-                                            months:[
-                                                'Januar','Februar','März','April',
-                                                'Mai','Juni','Juli','August',
-                                                'September','Oktober','November','Dezember',
-                                            ],
-                                            dayOfWeek:[
-                                                "Mo", "Di", "Mi",
-                                                "Do", "Fr", "Sa.","So.",
-                                            ]
-                                        }
-                                    },
-                                    timepicker:true,
-                                    step:15,
-                                    format:'d.m.Y H:i'
-                                });
-                            </script>
                         </tr>
                         <tr>
                             <td>Terminende:  </td><td><input id="endDate" type="text" name="endDate"> </td>
-                            <script>
-                                $.datetimepicker.setLocale('de');
 
-                                $('#endDate').datetimepicker({
-                                    i18n:{
-                                        de:{
-                                            months:[
-                                                'Januar','Februar','März','April',
-                                                'Mai','Juni','Juli','August',
-                                                'September','Oktober','November','Dezember',
-                                            ],
-                                            dayOfWeek:[
-                                                "Mo", "Di", "Mi",
-                                                "Do", "Fr", "Sa.","So.",
-                                            ]
-                                        }
-                                    },
-
-                                    timepicker:true,
-                                    step:15,
-                                    format:'d.m.Y H:i'
-                                });
-                            </script>
                         </tr>
                         <tr>
                             <td>Vorname</td><td>
@@ -309,17 +240,41 @@
                 <h4 class="modal-title" id="bestandskundeLabel">Neuer Termin</h4>
             </div>
             <div class="modal-body">
-                <form id="terminform2">
-                    <select id="kundenwahl" class="form-control" onchange="getKundenID(this)">
-                        <c:forEach items="${kundenlist}" var="kunde">
-                            <option value="${kunde.kundeID}">${kunde.vorname} ${kunde.nachname}</option>
-                        </c:forEach>
-                    </select>
+                <form id="terminform2" action="/newBestandTermin" method="post">
+                    <table class="table">
+                        <tr>
+                            <td>Resource ID</td><td>
+
+                            <input id="resID2" type="text" name="resourceID"> </td>
+                        </tr>
+                        <tr>
+                            <td>Terminstart:  </td><td><input id="currentDate2" type="text" name="currentDate"> </td>
+
+                        </tr>
+                        <tr>
+                            <td>Terminende:  </td><td><input id="endDate2" type="text" name="endDate"> </td>
+
+                        </tr>
+                        <tr><td>Kunde: </td>
+                            <td>  <select id="kundenwahl" class="form-control" onchange="getKundenID(this)">
+                                <c:forEach items="${kundenlist}" var="kunde">
+                                    <option value="${kunde.kundeID}">${kunde.vorname} ${kunde.nachname}</option>
+                                </c:forEach>
+                            </select></td></tr>
+                        <tr>
+                        <tr>
+                            <td>Beschreibung</td><td>
+
+                            <input id="beschreibung2" type="text" name="beschreibung"> </td>
+                        </tr>
+                        <tr>
+                            <td></td><td><button class="btn btn-success" type="submit" >OK</button> </td>
+                        </tr>
+                    </table>
+
+
+
                     <script>
-                        function getKundenID(item) {
-                            alert(item.value);
-                            //hier muss nun iene variable an die Ajaxfunktion gegeben werden um den Termin anzulegen
-                        }
 
                     </script>
                 </form>
@@ -331,52 +286,196 @@
         </div>
     </div>
 </div>
+
 <!--that work-->
 <script>
-$(document).ready(function () {
-    $('#terminform').submit(function (event) {
-        var id= $('#resID').val();
-        var currendDates= $('#currentDate').val();
-        var endDates= $('#endDate').val();
-        var vor= $('#vorname').val();
-        var nach= $('#nachname').val();
-        var emaill= $('#email').val();
-        var tele= $('#telefonnummer').val();
-        var besch= $('#beschreibung').val();
-        var jaNein= $('input[name="kundeJaNein"]:checked').val();
 
-        var thing= {
-            'resourceID': id,
-            'currentDate': currendDates,
-            'endDate': endDates,
-            'vorname': vor,
-            'nachname': nach,
-            'email': emaill,
-            'telefonnummer': tele,
-            'beschreibung': besch,
-            'kundeJaNein':jaNein
-        };
-        $.ajax({
-            type: "POST",
-            url: '/getTermin',
-            data: thing, //Stringified JSON Object
-            dataType:'json',
-            encode:true,
-            success: function() {
-                alert("Worked fine");
-            },
-            error: function(data){
-                26
-                alert('Error: ' + date.format());
-                27
-            },
+    $(document).ready(function () {
+        $('#terminform').submit(function (event) {
+            var id= $('#resID').val();
+            var currendDates= $('#currentDate').val();
+            var endDates= $('#endDate').val();
+            var vor= $('#vorname').val();
+            var nach= $('#nachname').val();
+            var emaill= $('#email').val();
+            var tele= $('#telefonnummer').val();
+            var besch= $('#beschreibung').val();
+            var jaNein= $('input[name="kundeJaNein"]:checked').val();
+            var thing= {
+                'resourceID': id,
+                'currentDate': currendDates,
+                'endDate': endDates,
+                'vorname': vor,
+                'nachname': nach,
+                'email': emaill,
+                'telefonnummer': tele,
+                'beschreibung': besch,
+                'kundeJaNein':jaNein
+            };
+            $.ajax({
+                type: "POST",
+                url: '/getTermin',
+                data: thing, //Stringified JSON Object
+                dataType:'json',
+                encode:true,
+                success: function() {
+                    alert("Worked fine");
+                },
+                error: function(data){
+                    26
+                    alert('Error: ' + date.format());
+                    27
+                },
+            });
+
+            $('#neuerKundeTerminModal').modal('hide');
+            $(document).ready(function() {
+                $('#calendar').fullCalendar('refetchEventSources');
 
 
-
-        });
-        event.preventDefault();
+            })
+        })
     })
-})
+</script>
+
+<script>
+    var kundenid2;
+    function getKundenID(item) {
+        kundenid2=item.value;
+        alert(kundenid2);
+        //hier muss nun iene variable an die Ajaxfunktion gegeben werden um den Termin anzulegen
+    }
+    $(document).ready(function () {
+        $('#terminform2').submit(function (event) {
+            var id= $('#resID2').val();
+            var currendDates= $('#currentDate2').val();
+            var endDates= $('#endDate2').val();
+
+            var besch= $('#beschreibung2').val();
+
+            var thing= {
+                'resourceID': id,
+                'currentDate': currendDates,
+                'endDate': endDates,
+                'kundenID':kundenid2,
+                'beschreibung': besch,
+
+            };
+            $.ajax({
+                type: "POST",
+                url: '/newBestandTermin',
+                data: thing, //Stringified JSON Object
+                dataType:'json',
+                encode:true,
+                success: function() {
+                    alert("Worked fine");
+                },
+                error: function(data){
+                    26
+                    alert('Error: ' + date.format());
+                    27
+                },
+            });
+           event.preventDefault();
+         testttt();
+        })
+    })
+</script>
+<script>
+    function testttt() {
+        alert("Yeahhhhhh");
+        $(document).ready(function() {
+            $('#calendar').fullCalendar('refetchEventSources',source);
+
+
+        })
+        $('#bestandskunde').modal('hide');
+
+    }
+</script>
+<script>
+    $.datetimepicker.setLocale('de');
+    $('#currentDate').datetimepicker({
+        i18n:{
+            de:{
+                months:[
+                    'Januar','Februar','März','April',
+                    'Mai','Juni','Juli','August',
+                    'September','Oktober','November','Dezember',
+                ],
+                dayOfWeek:[
+                    "Mo", "Di", "Mi",
+                    "Do", "Fr", "Sa.","So.",
+                ]
+            }
+        },
+        timepicker:true,
+        step:15,
+        format:'d.m.Y H:i'
+    });
+</script>
+<script>
+    $.datetimepicker.setLocale('de');
+    $('#currentDate2').datetimepicker({
+        i18n:{
+            de:{
+                months:[
+                    'Januar','Februar','März','April',
+                    'Mai','Juni','Juli','August',
+                    'September','Oktober','November','Dezember',
+                ],
+                dayOfWeek:[
+                    "Mo", "Di", "Mi",
+                    "Do", "Fr", "Sa.","So.",
+                ]
+            }
+        },
+        timepicker:true,
+        step:15,
+        format:'d.m.Y H:i'
+    });
+</script>
+<script>
+    $.datetimepicker.setLocale('de');
+    $('#endDate2').datetimepicker({
+        i18n:{
+            de:{
+                months:[
+                    'Januar','Februar','März','April',
+                    'Mai','Juni','Juli','August',
+                    'September','Oktober','November','Dezember',
+                ],
+                dayOfWeek:[
+                    "Mo", "Di", "Mi",
+                    "Do", "Fr", "Sa.","So.",
+                ]
+            }
+        },
+        timepicker:true,
+        step:15,
+        format:'d.m.Y H:i'
+    });
+</script>
+<script>
+    $.datetimepicker.setLocale('de');
+    $('#endDate').datetimepicker({
+        i18n:{
+            de:{
+                months:[
+                    'Januar','Februar','März','April',
+                    'Mai','Juni','Juli','August',
+                    'September','Oktober','November','Dezember',
+                ],
+                dayOfWeek:[
+                    "Mo", "Di", "Mi",
+                    "Do", "Fr", "Sa.","So.",
+                ]
+            }
+        },
+        timepicker:true,
+        step:15,
+        format:'d.m.Y H:i'
+    });
 </script>
 
 <div class="modal fade" id="Termininfo" tabindex="-1" role="dialog" aria-labelledby="meinModalLabel">
@@ -393,15 +492,9 @@ $(document).ready(function () {
         </div>
     </div>
 </div>
-<script src="/resources/JS/materialize.min.js"></script>
-<script>
-    (function($){
-        $(function(){
 
-            $('.button-collapse').sideNav();
 
-        }); // end of document ready
-    })(jQuery);
-</script>
+
+
 </body>
 </html>

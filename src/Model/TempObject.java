@@ -10,6 +10,7 @@ import java.util.Date;
 public class TempObject {
     private int resourceID;
     private int kundenID;
+    private int eintragerID;
     private String kundeJaNein;
     private String currentDate;
     private String endDate;
@@ -27,6 +28,14 @@ public class TempObject {
 
     public void setResourceID(int resourceID) {
         this.resourceID = resourceID;
+    }
+
+    public int getEintragerID() {
+        return eintragerID;
+    }
+
+    public void setEintragerID(int eintragerID) {
+        this.eintragerID = eintragerID;
     }
 
     public String getCurrentDate() {

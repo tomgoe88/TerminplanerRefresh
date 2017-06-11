@@ -80,6 +80,8 @@ public class TerminplanerController {
         } catch (Exception e){
             System.out.println(e);
         }
+        SQLHelper.neuerKunde(resourceID.getVorname(),resourceID.getNachname(),resourceID.getTelefonnummer(),resourceID.getEmail());
+        SQLHelper.neuerTermin(resourceID.getResourceID(),SQLHelper.getMaxKundenID(),resourceID.getBeschreibung(),resourceID.getTerminart(),date.toString(),endDate.toString(),1);
 
 
         System.out.println(date.toString()+" "+resourceID.getVorname()+" "+resourceID.getNachname()+" "+resourceID.getTelefonnummer()+" "+endDate.toString()+" "+resourceID.getKundeJaNein());
@@ -88,7 +90,21 @@ public class TerminplanerController {
     @RequestMapping(value = "/newBestandTermin", method = RequestMethod.POST)
     public String addCurrentCustomer(@ModelAttribute("bestandTermin")TempObject user
                           ) {
-            System.out.println(user.getNachname());
+        Date date=null;
+        Date endDate=null;
+        ResourceController resourceController=new ResourceController();
+        ModelAndView modeel = new ModelAndView("/terminplaner","resources",resourceController);
+        DateFormat dateFormat=new SimpleDateFormat("dd.MM.yyyy HH:mm", Locale.GERMAN);
+        try {
+            date= dateFormat.parse(user.getCurrentDate());
+            endDate= dateFormat.parse(user.getEndDate());
+        } catch (Exception e){
+            System.out.println(e);
+        }
+        SQLHelper.neuerTermin(user.getResourceID(),user.getKundenID(),user.getBeschreibung(),user.getTerminart(),date.toString(),endDate.toString(),1);
+
+        System.out.println(date.toString()+" "+user.getKundenID()+" "+endDate.toString()+" "+user.getKundeJaNein());
+
         return "terminplaner";
     }
 
